@@ -4,6 +4,10 @@ namespace GymLoggerAPI.Repositories
 {
     public interface IExerciseRepository
     {
-        Task<IEnumerable<Exercise>> GetAll();
+        Task<IEnumerable<Exercise>> GetAllAsync();
+        Task<Exercise?> GetByIdAsync(int id);
+        void DeleteByIdAsync(int id);
+        Task<Exercise> CreateAsync(Exercise exercise);
+        Task<Exercise> UpdateAsync(Exercise exercise);
     }
 }

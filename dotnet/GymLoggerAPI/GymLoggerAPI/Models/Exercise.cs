@@ -5,6 +5,6 @@
         public long Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        public virtual ICollection<Muscle>? Muscles { get; set; }
+        public virtual ICollection<Muscle> Muscles { get; set; } = [];
     }
 }

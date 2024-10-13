@@ -20,5 +20,13 @@ namespace GymLoggerAPI.Controllers
         {
             return await ExerciseService.GetExercises();
         }
+
+        [HttpGet]
+        [Route("{exerciseId}")]
+        public Task<ExerciseDTO?> GetExerciseById(int exerciseId) 
+        {
+            var res = ExerciseService.GetExerciseById(exerciseId);
+            return res ?? null!;
+        }
     }
 }
