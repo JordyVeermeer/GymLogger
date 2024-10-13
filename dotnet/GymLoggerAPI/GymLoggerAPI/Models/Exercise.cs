@@ -2,9 +2,9 @@
 {
     public class Exercise
     {
-        public long ExerciseId { get; set; }
+        public long Id { get; set; }
         public required string Name { get; set; }
         public string? Description { get; set; }
-        //public ICollection<MuscleGroup>? MuscleGroup { get; set; }
+        public virtual ICollection<Muscle>? Muscles { get; set; }
     }
 }

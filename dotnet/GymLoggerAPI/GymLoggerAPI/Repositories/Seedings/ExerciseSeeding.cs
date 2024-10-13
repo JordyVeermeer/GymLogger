@@ -9,8 +9,8 @@ namespace GymLoggerAPI.Repositories.Seedings
         public void Configure(EntityTypeBuilder<Exercise> builder)
         {
             builder.HasData(
-                new Exercise { ExerciseId=1, Name="Bench Press", Description="Push bar upwards with arms" },
-                new Exercise { ExerciseId = 2, Name ="Barbell Squat", Description="Push bar upwards with legs"}
+                new Exercise { Id = 1, Name= "Bench Press", Description = "Push bar upwards with arms"},
+                new Exercise { Id = 2, Name = "Barbell Squat", Description = "Push bar upwards with legs"}
                 );
         }
     }

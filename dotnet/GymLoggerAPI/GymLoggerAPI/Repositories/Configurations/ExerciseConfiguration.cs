@@ -10,9 +10,9 @@ namespace GymLoggerAPI.Repositories.Configurations
         {
             builder.ToTable("Exercise");
 
-            builder.HasKey(ex => ex.ExerciseId);
+            builder.HasKey(ex => ex.Id);
 
-            builder.Property(ex => ex.ExerciseId)
+            builder.Property(ex => ex.Id)
                 .ValueGeneratedOnAdd();
 
             builder.Property(ex => ex.Name)
@@ -26,6 +26,10 @@ namespace GymLoggerAPI.Repositories.Configurations
                 .HasMaxLength(255);
 
             // Relations
+
+            builder.HasMany(ex => ex.Muscles)
+                .WithMany(m => m.Exercises)
+                .UsingEntity<ExerciseMuscle>();
         }
     }
 }
