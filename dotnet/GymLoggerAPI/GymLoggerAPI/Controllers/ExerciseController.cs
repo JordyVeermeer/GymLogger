@@ -16,17 +16,45 @@ namespace GymLoggerAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ExerciseDTO>> GetExercises()
+        public async Task<ActionResult<IEnumerable<ExerciseDTO>>> GetExercises()
         {
-            return await ExerciseService.GetExercises();
+            var res = await ExerciseService.GetExercises();
+            return Ok(res);
         }
 
         [HttpGet]
         [Route("{exerciseId}")]
-        public Task<ExerciseDTO?> GetExerciseById(int exerciseId) 
+        public ActionResult<ExerciseDTO?> GetExerciseById(int exerciseId) 
         {
             var res = ExerciseService.GetExerciseById(exerciseId);
-            return res ?? null!;
+            if (res == null) 
+            {
+                return NotFound($"Exercise with id {exerciseId} was not found.");
+            }
+            return Ok(res);
+        }
+
+        [HttpDelete]
+        [Route("{exerciseId}")]
+        public async Task<IActionResult> DeleteExerciseById(int exerciseId)
+        {
+            bool removed = await ExerciseService.DeleteExerciseById(exerciseId) > 0;
+
+            return removed ? Ok($"Exercise {exerciseId} removed succesfully.") : BadRequest($"Exercise {exerciseId} not found.");
+        }
+
+        [HttpPost]
+        //[Route]
+        public async Task<ActionResult<ExerciseDTO?>> CreateExercise(BaseExerciseDTO exerciseDTO)
+        {
+            var res = await ExerciseService.CreateExercise(exerciseDTO);
+            if (res == null)
+            {
+                return BadRequest("The exercise could not be created");
+            }
+
+            Uri uri = new Uri($"https://www.example.com/api/exercises/{res.Id}");
+            return Created(uri, res); 
         }
     }
 }

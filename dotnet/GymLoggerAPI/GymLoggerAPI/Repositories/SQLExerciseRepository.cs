@@ -12,19 +12,35 @@ namespace GymLoggerAPI.Repositories
             _context = context;
         }
 
-        public Task<Exercise> CreateAsync(Exercise exercise)
+        public async Task<Exercise?> CreateAsync(Exercise exercise)
         {
-            throw new NotImplementedException();
+            List<Muscle> musclesTargeted = [];
+
+            foreach (Muscle m in exercise.Muscles) 
+            {
+                var muscle = _context.Muscles.Where(mu => mu.Id == m.Id).FirstOrDefault();
+                if (muscle !=  null)
+                {
+                    musclesTargeted.Add(muscle);
+                }
+            }
+
+            exercise.Muscles = musclesTargeted;
+
+            await _context.AddAsync(exercise);
+            int res = _context.SaveChanges();
+            
+            return res > 0 ? exercise : null;
         }
 
-        public void DeleteByIdAsync(int id)
+        public async Task<int> DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Exercises.Where(e => e.Id == id).ExecuteDeleteAsync();
         }
 
         public async Task<IEnumerable<Exercise>> GetAllAsync()
         {
-            return await _context.Exercises.ToListAsync();
+            return await _context.Exercises.Include(e => e.Muscles).ToListAsync();
         }
 
         public async Task<Exercise?> GetByIdAsync(int id)

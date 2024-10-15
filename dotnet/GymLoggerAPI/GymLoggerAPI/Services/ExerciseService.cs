@@ -1,7 +1,6 @@
 ﻿using GymLoggerAPI.DTOS;
 using GymLoggerAPI.Models;
 using GymLoggerAPI.Repositories;
-using System.Reflection.Metadata.Ecma335;
 
 namespace GymLoggerAPI.Services
 {
@@ -26,11 +25,22 @@ namespace GymLoggerAPI.Services
             return ex != null ? ExerciseToDTO(ex) : null;
         }
 
+        public async Task<int> DeleteExerciseById(int id)
+        {
+            return await _exerciseRepository.DeleteByIdAsync(id);
+        }
+        
+        public async Task<Exercise?> CreateExercise(BaseExerciseDTO exercise)
+        {
+            return await _exerciseRepository.CreateAsync(BaseDTOToExercise(exercise));
+        }
+
         /*
          * 
          * PRIVATE METHODS
          * 
          */
+
         private static ExerciseDTO ExerciseToDTO(Exercise ex)
         {
             ExerciseDTO dto = new()
@@ -47,5 +57,37 @@ namespace GymLoggerAPI.Services
 
             return dto;
         }
+
+        private static Exercise BaseDTOToExercise(BaseExerciseDTO dto)
+        {
+            Exercise ex = new()
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+            };
+
+            foreach (var muscleDTO in dto.Muscles)
+            {
+                ex.Muscles.Add(new Muscle() { Id = muscleDTO.Id, Name = muscleDTO.Name });
+            }
+
+            return ex;
+        }
+
+        /*private static Exercise DTOToExercise(ExerciseDTO dto)
+        {
+            Exercise ex = new()
+            {
+                Name = dto.Name,
+                Description = dto.Description,
+            };
+
+            foreach (var muscleDTO in dto.Muscles)
+            {
+                ex.Muscles.Add(new Muscle() { Id = muscleDTO.Id, Name = muscleDTO.Name });
+            }
+
+            return ex;
+        }*/
     }
 }

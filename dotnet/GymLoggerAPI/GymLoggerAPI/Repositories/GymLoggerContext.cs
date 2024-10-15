@@ -33,6 +33,7 @@ namespace GymLoggerAPI.Repositories
                 modelBuilder.ApplyConfiguration(new ExerciseSeeding());
                 modelBuilder.ApplyConfiguration(new ExerciseMuscleSeeding());
 
+                Console.WriteLine("Seeding complete.");
                 
             }
         }

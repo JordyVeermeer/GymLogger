@@ -6,8 +6,8 @@ namespace GymLoggerAPI.Repositories
     {
         Task<IEnumerable<Exercise>> GetAllAsync();
         Task<Exercise?> GetByIdAsync(int id);
-        void DeleteByIdAsync(int id);
-        Task<Exercise> CreateAsync(Exercise exercise);
+        Task<int> DeleteByIdAsync(int id);
+        Task<Exercise?> CreateAsync(Exercise exercise);
         Task<Exercise> UpdateAsync(Exercise exercise);
     }
 }
